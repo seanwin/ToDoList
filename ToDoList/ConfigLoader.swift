@@ -29,7 +29,7 @@ class ConfigLoader {
 struct Configuration: Decodable {
     
     enum Environment: String {
-        case development
+        case develop
         case staging
         case production
     }
@@ -37,12 +37,11 @@ struct Configuration: Decodable {
     let config: String
     
     var environment: Environment {
-        if let environment = Environment(rawValue: config) {
-            return environment
-        } else {
-            assertionFailure("Invalid config: \(config)")
-            return .production
+        guard let environment = Environment(rawValue: config) else {
+            fatalError("Invalid config: \(config)")
         }
+        
+        return environment
     }
     
 }
